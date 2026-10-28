@@ -15,18 +15,15 @@ public class DatabaseService
         if (_db is not null)
             return;
 
-        string targetPath = Path.Combine(FileSystem.AppDataDirectory, DbFileName);
-
-        // Yazılabilir klasörde henüz yoksa, Resources/Raw'daki şablonu oraya kopyala
-        if (!File.Exists(targetPath))
-        {
-            using Stream source = await FileSystem.OpenAppPackageFileAsync(DbFileName);
-            using FileStream target = File.Create(targetPath);
-            await source.CopyToAsync(target);
-        }
+        // GEÇİCİ: Geliştirme için masaüstündeki sabit dosyaya bağlan.
+        // İleride proje içine gömülü dosyaya geçilecek.
+        string targetPath = @"C:\Users\TAMTAMIŞ\Desktop\BusGoDataBase.db";
 
         _db = new SQLiteAsyncConnection(targetPath);
+
+        System.Diagnostics.Debug.WriteLine($"VERITABANI YOLU: {targetPath}");
     }
+
 
     // Yeni kullanıcı ekle (ham INSERT query'si)
     public async Task<int> AddUserAsync(User user)
@@ -62,5 +59,14 @@ public class DatabaseService
 
         return results.FirstOrDefault();
     }
+
+    // Tüm kategorileri getir
+    public async Task<List<Category>> GetCategoriesAsync()
+    {
+        await InitAsync();
+
+        return await _db.QueryAsync<Category>("SELECT * FROM Category ORDER BY Id;");
+    }
+
 }
 
