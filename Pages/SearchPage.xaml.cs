@@ -1,27 +1,21 @@
-﻿namespace BusGoMobile.Pages;
+﻿using BusGoMobile.Services;
+
+namespace BusGoMobile.Pages;
 
 public partial class SearchPage : ContentPage
 {
-    public SearchPage()
+    private readonly DatabaseService _db;
+
+    public SearchPage(DatabaseService db)
     {
         InitializeComponent();
-        // Şehir listesi
-        var sehirler = new List<string>
-        {
-            "Adana", "Ankara", "Antalya", "Bursa", "Denizli",
-            "Diyarbakır", "Erzurum", "Eskişehir", "Gaziantep", "İstanbul",
-            "İzmir", "Kayseri", "Konya", "Malatya", "Mersin",
-            "Samsun", "Trabzon", "Van"
-        };
+        _db = db;
 
-        FromPicker.ItemsSource = sehirler;
-        ToPicker.ItemsSource = sehirler;
-
-        // Tarih: bugünden itibaren seçilebilsin
+        // Tarih: bugünden itibaren
         GoDatePicker.MinimumDate = DateTime.Today;
         GoDatePicker.Date = DateTime.Today;
 
-        // Yolcu sayısı stepper'ı değişince etiketi güncelle
+        // Yolcu sayısı stepper'ı
         PassengerStepper.ValueChanged += (s, e) =>
         {
             PassengerLabel.Text = $"{(int)e.NewValue} Yolcu";
@@ -34,6 +28,20 @@ public partial class SearchPage : ContentPage
             FromPicker.SelectedIndex = ToPicker.SelectedIndex;
             ToPicker.SelectedIndex = temp;
         };
-
     }
-} 
+
+    // Sayfa açılınca şehirleri DB'den çek ve Picker'lara doldur
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Zaten doluysa tekrar yükleme
+        if (FromPicker.ItemsSource != null)
+            return;
+
+        var sehirler = await _db.GetCitiesAsync();
+
+        FromPicker.ItemsSource = sehirler;
+        ToPicker.ItemsSource = sehirler;
+    }
+}

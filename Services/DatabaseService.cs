@@ -68,5 +68,14 @@ public class DatabaseService
         return await _db.QueryAsync<Category>("SELECT * FROM Category ORDER BY Id;");
     }
 
+    // Tüm şehirleri getir
+    public async Task<List<City>> GetCitiesAsync()
+    {
+        await InitAsync();
+
+        return await _db.QueryAsync<City>("SELECT * FROM City ORDER BY Name;");
+    }
+
+
 }
 
