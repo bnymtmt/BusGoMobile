@@ -76,6 +76,12 @@ public class DatabaseService
         return await _db.QueryAsync<City>("SELECT * FROM City ORDER BY Name;");
     }
 
+    //Slider verilerini anasayfya getir 
+    public async Task<List<Campaign>> GetCampaignsAsync()
+    {
+        await InitAsync();
+        return await _db.QueryAsync<Campaign>("SELECT * FROM Campaign ORDER BY Id;");
+    }
 
 }
 
