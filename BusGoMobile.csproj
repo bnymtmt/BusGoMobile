@@ -90,6 +90,9 @@
 	  <MauiXaml Update="Pages\SearchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\SeatSelectionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Test.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

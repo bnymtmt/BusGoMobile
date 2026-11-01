@@ -69,5 +69,13 @@
     <Color x:Key="BgEmerald">#059669</Color>
     <Color x:Key="BgEmeraldText">#047857</Color>
 
+    <Color x:Key="BgInverseSurface">#213145</Color>
+
+
+    <Color x:Key="BgError">#ba1a1a</Color>
+    <Color x:Key="BgErrorContainer">#ffdad6</Color>
+
+
+
 
 </ResourceDictionary>
